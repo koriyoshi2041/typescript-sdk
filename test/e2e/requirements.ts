@@ -16,6 +16,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
     // Lifecycle & version negotiation
 
     'lifecycle:capability:client-not-declared': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#operation',
         behavior: 'The client rejects sending notifications or registering handlers for capabilities it did not declare.',
@@ -26,33 +27,40 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         behavior: 'The client rejects calls to methods (e.g. resources/list) for capabilities the server did not advertise.'
     },
     'lifecycle:initialize:basic': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#initialization',
         behavior:
             'Connecting sends initialize with the protocol version, client capabilities, and client info; the server responds with its own and the connection is established.'
     },
     'lifecycle:initialize:instructions': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#initialization',
         behavior: 'A server may include an instructions string in the initialize result; the client exposes it.'
     },
     'lifecycle:initialized-notification': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#initialization',
         behavior: 'After successful initialization, the client sends exactly one initialized notification, before any non-ping request.'
     },
     'lifecycle:ping': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/ping#behavior-requirements',
         behavior: 'ping in either direction returns an empty result.'
     },
     'lifecycle:version:downgrade': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#version-negotiation',
         behavior:
             'When the server returns an older supported protocol version, the client downgrades to it and the connection succeeds at that version.'
     },
     'lifecycle:version:match': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#version-negotiation',
         behavior:
             'When the server supports the requested protocol version it echoes that version in the initialize result, and the connection proceeds at that version.'
     },
     'lifecycle:version:reject-unsupported': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#version-negotiation',
         behavior: 'When server returns a protocolVersion the client does not support, connect rejects and the transport is closed.',
         knownFailures: [
@@ -63,6 +71,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         ]
     },
     'lifecycle:capability:experimental-passthrough': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#capability-negotiation',
         behavior:
@@ -77,30 +86,36 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'The behavior itself is transport-agnostic but the garbage injection needs a real child process.'
     },
     'lifecycle:initialize:server-info': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#initialization',
         behavior: 'The initialize result identifies the server: name and version, plus title when declared.'
     },
     'lifecycle:initialize:client-info': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: "The client's name, version, and title are visible to server handlers after initialization.",
         transports: STATEFUL_TRANSPORTS,
         note: 'Under stateless hosting each request is served by a new server instance, so state set up earlier in the session cannot be observed.'
     },
     'lifecycle:version:server-fallback-latest': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#version-negotiation',
         behavior:
             'An initialize request carrying a protocol version the server does not support is answered with another version the server supports — the latest one — rather than an error.'
     },
     'lifecycle:pre-initialization-ordering': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#initialization',
         behavior:
             'Before initialization completes, the client sends no requests other than pings, and the server sends no requests other than pings and logging.'
     },
     'lifecycle:initialize:capabilities:minimal': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle#capability-negotiation',
         behavior: 'A server with no feature handlers advertises no feature capabilities.'
     },
     'typescript:server:get-client-capabilities': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior:
             'After initialize, Server.getClientCapabilities() returns the capabilities object the client sent in InitializeRequest.params.capabilities; before initialize it returns undefined. Servers use this to gate optional features (e.g. dynamic registration) on what the connected client declared.',
@@ -299,6 +314,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         behavior: 'tools/call delivers arguments to the tool handler and returns its text content to the caller.'
     },
     'tools:call:elicitation-roundtrip': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#user-interaction-model',
         behavior: "A tool handler that issues an elicitation receives the client's result and can embed it in the tool call result.",
@@ -325,6 +341,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         ]
     },
     'tools:call:sampling-roundtrip': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/sampling',
         behavior:
@@ -428,6 +445,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         behavior: 'Registering a tool with a name already in use is rejected at registration time.'
     },
     'typescript:mcpserver:tool:extra': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior:
             'Tool handlers receive RequestHandlerExtra with sessionId, requestId, signal, sendNotification, and (when applicable) authInfo and requestInfo.'
@@ -527,10 +545,12 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         behavior: 'resources/read for an unknown URI returns JSON-RPC error -32002 (resource not found).'
     },
     'resources:subscribe:capability-required': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/server/resources#capabilities',
         behavior: 'resources/subscribe to a server that did not advertise the subscribe capability is rejected with an error.'
     },
     'resources:subscribe:updated': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/server/resources#subscriptions',
         behavior: 'After resources/subscribe, server changes to that URI send notifications/resources/updated.',
@@ -551,6 +571,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         ]
     },
     'resources:unsubscribe:stops-updates': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/server/resources#subscriptions',
         behavior: 'After resources/unsubscribe the server stops sending updated notifications for that URI.',
@@ -724,18 +745,21 @@ export const REQUIREMENTS: Record<string, Requirement> = {
             "A log message sent by a server handler is delivered to the client's logging callback with its severity level, logger name, and data."
     },
     'logging:message:filtered': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/server/utilities/logging#setting-log-level',
         behavior: 'After logging/setLevel, log messages below the configured level are not sent.',
         note: 'Under stateless hosting each request is served by a new server instance, so state set up earlier in the session cannot be observed.'
     },
     'logging:set-level': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/server/utilities/logging#setting-log-level',
         behavior: 'logging/setLevel sets the minimum level for notifications/message.',
         note: 'Under stateless hosting each request is served by a new server instance, so state set up earlier in the session cannot be observed.'
     },
     'logging:set-level:invalid-level': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/server/utilities/logging#error-handling',
         behavior: 'logging/setLevel with an invalid level value returns JSON-RPC error -32602 (Invalid params).',
         knownFailures: [
@@ -746,6 +770,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         ]
     },
     'logging:out-of-band:basic': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'sdk',
         behavior:
@@ -762,12 +787,14 @@ export const REQUIREMENTS: Record<string, Requirement> = {
     // Sampling
 
     'sampling:capability:declare': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/sampling#capabilities',
         behavior: 'A client that handles sampling requests advertises the sampling capability in its initialize request.',
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'sampling:create:basic': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/sampling#creating-messages',
         behavior:
@@ -846,6 +873,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         ]
     },
     'sampling:tools:server-gated-by-capability': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/sampling#tools-in-sampling',
         behavior:
@@ -867,6 +895,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'sampling:context:server-gated-by-capability': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/sampling#capabilities',
         behavior:
             'The server does not use includeContext values thisServer or allServers unless the client declared the sampling.context capability.',
@@ -879,6 +908,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         ]
     },
     'sampling:create:not-supported': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/sampling#capabilities',
         behavior: 'The server refuses to send sampling/createMessage to a client that did not declare the sampling capability.',
         transports: ['inMemory', 'stdio', 'streamableHttp'],
@@ -894,12 +924,14 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'elicitation:capability:mode-mismatch': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#error-handling',
         behavior: 'The client answers elicitation requests for a mode it did not advertise with JSON-RPC error -32602 (Invalid params).',
-        note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
+        note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these. Client-side answers to pushed server requests have no 2026-07-28 sibling; the obligation moves to server-side gating (mrtr:caps-gated-inputrequests).'
     },
     'elicitation:capability:server-respects-mode': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#capabilities',
         behavior: 'The server refuses to send an elicitation request with a mode the connected client did not declare in its capabilities.',
@@ -980,6 +1012,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
             'The client ignores an elicitation/complete notification referencing an unknown or already-completed elicitationId without error.'
     },
     'elicitation:url:required-error': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#url-elicitation-required-error',
         behavior:
             'A handler that cannot proceed without a URL elicitation rejects the request with error -32042, carrying the pending elicitations in the error data.'
@@ -992,6 +1025,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'elicitation:capability:not-declared': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#error-handling',
         behavior:
             'The server refuses to send elicitation/create (form or URL mode) to a client that did not declare the elicitation capability.',
@@ -1027,6 +1061,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'roots:list:basic': {
+        removedInSpecVersion: '2026-07-28',
         transports: STATEFUL_TRANSPORTS,
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/roots#listing-roots',
         behavior:
@@ -1040,10 +1075,11 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'roots:list:not-supported': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/roots#error-handling',
         behavior: 'A roots/list request to a client that did not declare the roots capability is answered with -32601 Method not found.',
         transports: ['inMemory', 'stdio', 'streamableHttp'],
-        note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
+        note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these. Client-side answers to pushed server requests have no 2026-07-28 sibling; the obligation moves to server-side gating (mrtr:caps-gated-inputrequests).'
     },
     'roots:list:empty': {
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/client/roots#listing-roots',
@@ -1127,6 +1163,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         behavior: "_meta returned in a handler's result is delivered intact to the requesting client."
     },
     'protocol:request-id:unique': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic#requests',
         behavior:
             'Every request sent on a session carries a unique, non-null string or integer id; ids are never reused within the session.'
@@ -1455,54 +1492,63 @@ export const REQUIREMENTS: Record<string, Requirement> = {
     // Hosting: session lifecycle
 
     'hosting:session:cors-expose': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'CORS configuration exposes the Mcp-Session-Id header so browser clients can read it.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:create': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'An initialize POST without a session id creates a session and returns Mcp-Session-Id in the response headers.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:delete': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'DELETE with a valid Mcp-Session-Id terminates the session.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:id-charset': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'Generated Mcp-Session-Id values contain only visible ASCII characters.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:isolation': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'Each session gets its own server instance; closing one session does not affect others.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:missing-id': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'A non-initialize POST without Mcp-Session-Id in stateful mode returns 400.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:reinitialize': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'A second initialize on an already-initialized session transport is rejected.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:reuse': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: "A POST carrying a valid Mcp-Session-Id routes to that session's transport with state preserved.",
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer and session management; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:unknown-id': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'A POST, GET, or DELETE with an unknown Mcp-Session-Id returns 404.',
         transports: ['streamableHttp'],
@@ -1537,6 +1583,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the HTTP hosting layer and stateless mode; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:session:delete-cancels-inflight': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior:
             "DELETE on a session aborts every in-flight request handler's RequestHandlerExtra.signal; their POST-initiated SSE streams close without a JSON-RPC response being written.",
@@ -1563,6 +1610,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the HTTP hosting layer and stateless mode; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'transport:streamable-http:stateless-restrictions': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior:
             'A handler that attempts a server-initiated request in stateless mode fails with an error result, because there is no session to call back through.',
@@ -1655,42 +1703,49 @@ export const REQUIREMENTS: Record<string, Requirement> = {
     // Hosting: resumability
 
     'typescript:hosting:resume:bad-event-id': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'Last-Event-ID that cannot be mapped to a stream returns 400; replay failure returns 500.',
         transports: ['streamableHttp'],
         note: 'Resumability requires a per-session transport with an EventStore and a standalone GET stream; stateless hosting has neither.'
     },
     'hosting:resume:buffered-replay': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery',
         behavior: 'Notifications emitted while no client is connected are replayed in order on reconnect.',
         transports: ['streamableHttp'],
         note: 'Resumability requires a per-session transport with an EventStore and a standalone GET stream; stateless hosting has neither.'
     },
     'hosting:resume:close-stream': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'Handlers can close an SSE stream cleanly when an event store is configured.',
         transports: ['streamableHttp'],
         note: 'Resumability requires a per-session transport with an EventStore and a standalone GET stream; stateless hosting has neither.'
     },
     'hosting:resume:event-ids': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery',
         behavior: 'With an event store configured, every SSE event carries an id field.',
         transports: ['streamableHttp'],
         note: 'Resumability requires a per-session transport with an EventStore and a standalone GET stream; stateless hosting has neither.'
     },
     'hosting:resume:priming': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#sending-messages-to-the-server',
         behavior: 'With eventStore + new protocol, POST SSE streams begin with a priming event carrying the configured retry: interval.',
         transports: ['streamableHttp'],
         note: 'Resumability requires a per-session transport with an EventStore and a standalone GET stream; stateless hosting has neither.'
     },
     'hosting:resume:replay': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery',
         behavior: 'GET with Last-Event-ID replays stored events for that stream after the given id.',
         transports: ['streamableHttp'],
         note: 'Resumability requires a per-session transport with an EventStore and a standalone GET stream; stateless hosting has neither.'
     },
     'hosting:resume:stream-scoped': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery',
         behavior: 'Replay via Last-Event-ID returns only messages from the stream that event id belongs to.',
         transports: ['streamableHttp'],
@@ -1706,6 +1761,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'These test the per-session host layer (via hostPerSession helper); stateless transport tests use hostStateless which has different request routing.'
     },
     'hosting:http:batch': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#sending-messages-to-the-server',
         behavior:
             'POST body is a single JSON-RPC message; batched arrays are accepted only as an SDK back-compat affordance for pre-2025-06-18 clients (spec forbids batches).',
@@ -1719,6 +1775,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the HTTP hosting layer; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:http:disconnect-not-cancel': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#sending-messages-to-the-server',
         behavior:
             'A client connection drop during an in-flight request does not cancel the server-side handler; the request continues and its result remains retrievable.',
@@ -1744,6 +1801,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the HTTP hosting layer; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:http:no-broadcast': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#multiple-connections',
         behavior:
             'When multiple SSE streams are open for a session, each server-originated message is sent on exactly one stream, never duplicated.',
@@ -1783,6 +1841,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the HTTP hosting layer; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:http:second-sse-rejected': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'A second concurrent standalone GET SSE stream on the same session is rejected.',
         transports: ['streamableHttp'],
@@ -1795,12 +1854,14 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the HTTP hosting layer; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:http:standalone-sse': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#listening-for-messages-from-the-server',
         behavior: 'GET opens a standalone SSE stream that receives server-initiated messages.',
         transports: ['streamableHttp'],
         note: 'This exercises the HTTP hosting layer; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:http:standalone-sse-no-response': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#listening-for-messages-from-the-server',
         behavior:
             'The standalone GET SSE stream carries server requests and notifications but never a JSON-RPC response, except when resuming a prior request stream.',
@@ -1822,6 +1883,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the Express hosting layer; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'hosting:http:send-no-listener-noop': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior:
             'A server-initiated notification sent on a stateful session with no open standalone GET SSE stream does not throw; it is silently dropped (or stored for replay when an eventStore is configured).',
@@ -1846,6 +1908,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
             'removed in v2: the bundled authorize and token endpoints no longer exist, so redirect_uri binding across authorize and token cannot be exercised.'
     },
     'hosting:session:post-termination-404': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'After a session is terminated, any further request carrying that session ID is answered with 404 Not Found.',
         transports: ['streamableHttp'],
@@ -1899,12 +1962,14 @@ export const REQUIREMENTS: Record<string, Requirement> = {
     // Client transport: streamableHttp
 
     'client-transport:http:404-surfaces': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'A 404 (session expired) on a request surfaces as an error to the caller.',
         transports: ['streamableHttp'],
         note: 'Session-id continuity testing requires the per-session host (404 is session-not-found).'
     },
     'client-transport:http:session-404-reinitialize': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior:
             'A 404 in response to a request carrying a session ID makes the client start a new session with a fresh InitializeRequest and no session ID attached.',
@@ -1977,12 +2042,14 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the StreamableHTTP client transport directly; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'client-transport:http:reconnect-get': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery',
         behavior: 'A standalone GET SSE stream that errors is reconnected with the Last-Event-ID of the last received event.',
         transports: ['streamableHttp'],
         note: 'This exercises the StreamableHTTP client transport directly; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'client-transport:http:reconnect-post-priming': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#sending-messages-to-the-server',
         behavior:
             'A POST-initiated SSE stream that errors before delivering its response is reconnected only if a priming event (an event carrying an ID) was received on it.',
@@ -1996,24 +2063,28 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'This exercises the StreamableHTTP client transport directly; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'client-transport:http:resume-stream-api': {
+        removedInSpecVersion: '2026-07-28',
         source: 'sdk',
         behavior: 'The client can capture a resumption token, reconnect with the same session id, and receive the notifications it missed.',
         transports: ['streamableHttp'],
         note: 'This exercises the StreamableHTTP client transport directly; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'client-transport:http:session-stored': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'The Mcp-Session-Id returned by initialize is stored by the client transport and sent on every subsequent request.',
         transports: ['streamableHttp'],
         note: 'This exercises the StreamableHTTP client transport directly; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'client-transport:http:sse-405-tolerated': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#listening-for-messages-from-the-server',
         behavior: 'Opening the standalone GET SSE stream tolerates a 405 response without failing the connection.',
         transports: ['streamableHttp'],
         note: 'This exercises the StreamableHTTP client transport directly; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'client-transport:http:terminate-405-ok': {
+        removedInSpecVersion: '2026-07-28',
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#session-management',
         behavior: 'Session termination succeeds without error if the server answers 405 (termination unsupported).',
         transports: ['streamableHttp'],
@@ -2287,6 +2358,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'Stateless hosting creates a fresh server per request and has no standalone GET stream, so there is no server→client channel to deliver/observe these.'
     },
     'flow:elicitation:url-at-session-init': {
+        removedInSpecVersion: '2026-07-28',
         transports: ['streamableHttp'],
         source: 'sdk',
         behavior:
@@ -2315,6 +2387,7 @@ export const REQUIREMENTS: Record<string, Requirement> = {
         note: 'End-to-end authorization-code journey (401 → discovery → DCR → redirect → finishAuth → authorized reconnect); the individual mechanisms are covered by the client-auth:* requirements. This exercises the HTTP hosting/auth layer and OAuth client; the matrix transport arg is ignored, so it runs as a single streamableHttp-labelled cell to avoid duplicate runs.'
     },
     'flow:resume:tool-call-resumption-token': {
+        removedInSpecVersion: '2026-07-28',
         transports: ['streamableHttp'],
         source: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery',
         behavior:
