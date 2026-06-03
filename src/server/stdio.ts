@@ -1,8 +1,23 @@
 import process from 'node:process';
 import { Readable, Writable } from 'node:stream';
-import { ReadBuffer, serializeMessage } from '../shared/stdio.js';
-import { JSONRPCMessage } from '../types.js';
+import { JSONRPCMessageValidationError, ReadBuffer, serializeMessage } from '../shared/stdio.js';
+import { ErrorCode, JSONRPCMessage, RequestId } from '../types.js';
 import { Transport } from '../shared/transport.js';
+
+function getRequestIdFromInvalidMessage(rawMessage: unknown): RequestId | undefined {
+    if (rawMessage === null || typeof rawMessage !== 'object' || Array.isArray(rawMessage)) {
+        return undefined;
+    }
+
+    const id = (rawMessage as { id?: unknown }).id;
+    if (typeof id === 'string') {
+        return id;
+    }
+    if (typeof id === 'number' && Number.isInteger(id)) {
+        return id;
+    }
+    return undefined;
+}
 
 /**
  * Server transport for stdio: this communicates with an MCP client by reading from the current process' stdin and writing to stdout.
@@ -73,6 +88,19 @@ export class StdioServerTransport implements Transport {
                 this.onmessage?.(message);
             } catch (error) {
                 this.onerror?.(error as Error);
+                const id = getRequestIdFromInvalidMessage((error as JSONRPCMessageValidationError).rawMessage);
+                if (id !== undefined) {
+                    this.send({
+                        jsonrpc: '2.0',
+                        id,
+                        error: {
+                            code: ErrorCode.InvalidRequest,
+                            message: 'Invalid Request'
+                        }
+                    }).catch(sendError => {
+                        this.onerror?.(sendError);
+                    });
+                }
             }
         }
     }

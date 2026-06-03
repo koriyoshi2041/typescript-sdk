@@ -1,5 +1,7 @@
 import { JSONRPCMessage, JSONRPCMessageSchema } from '../types.js';
 
+export type JSONRPCMessageValidationError = Error & { rawMessage?: unknown };
+
 export const STDIO_DEFAULT_MAX_BUFFER_SIZE = 10 * 1024 * 1024;
 
 /**
@@ -43,7 +45,15 @@ export class ReadBuffer {
 }
 
 export function deserializeMessage(line: string): JSONRPCMessage {
-    return JSONRPCMessageSchema.parse(JSON.parse(line));
+    const rawMessage = JSON.parse(line);
+    try {
+        return JSONRPCMessageSchema.parse(rawMessage);
+    } catch (error) {
+        if (error instanceof Error) {
+            (error as JSONRPCMessageValidationError).rawMessage = rawMessage;
+        }
+        throw error;
+    }
 }
 
 export function serializeMessage(message: JSONRPCMessage): string {

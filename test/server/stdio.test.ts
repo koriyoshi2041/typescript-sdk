@@ -101,6 +101,67 @@ test('should read multiple messages', async () => {
     expect(readMessages).toEqual(messages);
 });
 
+test('should respond with Invalid Request for malformed requests with an id', async () => {
+    const server = new StdioServerTransport(input, output);
+
+    let receivedError: Error | undefined;
+    server.onerror = error => {
+        receivedError = error;
+    };
+
+    await server.start();
+
+    input.push('{"id":99,"method":"tools/list","params":{}}\n');
+
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    expect(receivedError).toBeDefined();
+    expect(outputBuffer.readMessage()).toEqual({
+        jsonrpc: '2.0',
+        id: 99,
+        error: {
+            code: -32600,
+            message: 'Invalid Request'
+        }
+    });
+});
+
+test('should not respond to malformed notifications without an id', async () => {
+    const server = new StdioServerTransport(input, output);
+
+    let receivedError: Error | undefined;
+    server.onerror = error => {
+        receivedError = error;
+    };
+
+    await server.start();
+
+    input.push('{"method":"notifications/initialized"}\n');
+
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    expect(receivedError).toBeDefined();
+    expect(outputBuffer.readMessage()).toBeNull();
+});
+
+test('should not respond to invalid batch messages without a recoverable id', async () => {
+    const server = new StdioServerTransport(input, output);
+
+    let receivedError: Error | undefined;
+    server.onerror = error => {
+        receivedError = error;
+    };
+
+    await server.start();
+
+    input.push('[{"jsonrpc":"2.0","id":100,"method":"tools/list"},{"jsonrpc":"2.0","id":101,"method":"ping"}]\n');
+
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    expect(receivedError).toBeDefined();
+    expect(outputBuffer.readMessage()).toBeNull();
+});
+
 test('should respect custom maxBufferSize option', async () => {
     const server = new StdioServerTransport(input, output, { maxBufferSize: 100 });
 
