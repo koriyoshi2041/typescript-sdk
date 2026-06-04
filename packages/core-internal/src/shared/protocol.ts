@@ -1443,7 +1443,7 @@ export abstract class Protocol<ContextT extends BaseContext> {
 
             let responseReceived = false;
 
-            const cancel = (reason: unknown) => {
+            const cancel = (reason: unknown, fallbackCode = SdkErrorCode.RequestTimeout) => {
                 if (responseReceived) {
                     return;
                 }
@@ -1473,7 +1473,7 @@ export abstract class Protocol<ContextT extends BaseContext> {
                 }
 
                 // Wrap the reason in an SdkError if it isn't already
-                const error = reason instanceof SdkError ? reason : new SdkError(SdkErrorCode.RequestTimeout, String(reason));
+                const error = reason instanceof SdkError ? reason : new SdkError(fallbackCode, String(reason));
                 reject(error);
             };
 
@@ -1547,7 +1547,7 @@ export abstract class Protocol<ContextT extends BaseContext> {
                 }, reject);
             });
 
-            onAbort = () => cancel(options?.signal?.reason);
+            onAbort = () => cancel(options?.signal?.reason, SdkErrorCode.RequestAborted);
             options?.signal?.addEventListener('abort', onAbort, { once: true });
 
             const timeout = options?.timeout ?? DEFAULT_REQUEST_TIMEOUT_MSEC;

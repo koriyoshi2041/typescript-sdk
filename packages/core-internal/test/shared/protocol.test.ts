@@ -97,6 +97,23 @@ describe('protocol tests', () => {
         }
     });
 
+    test('should throw an aborted error if the caller aborts a request', async () => {
+        await protocol.connect(transport);
+
+        const controller = new AbortController();
+        const mockSchema = z.object({ result: z.string() });
+        const reqPromise = testRequest(protocol, { method: 'example', params: {} }, mockSchema, {
+            signal: controller.signal,
+            timeout: 60_000
+        });
+
+        controller.abort(new DOMException('User cancelled', 'AbortError'));
+
+        await expect(reqPromise).rejects.toMatchObject({
+            code: SdkErrorCode.RequestAborted
+        });
+    });
+
     test('should invoke onclose when the connection is closed', async () => {
         const oncloseMock = vi.fn();
         protocol.onclose = oncloseMock;
